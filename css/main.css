@@ -1,3 +1,31 @@
+        /* JGS Font Family */
+        @font-face {
+            font-family: 'JGS';
+            src: url('../fonts/jgs5.woff2') format('woff2'),
+                 url('../fonts/jgs5.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'JGS7';
+            src: url('../fonts/jgs7.woff2') format('woff2'),
+                 url('../fonts/jgs7.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'JGS9';
+            src: url('../fonts/jgs9.woff2') format('woff2'),
+                 url('../fonts/jgs9.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -302,7 +330,7 @@
         }
 
         .ascii-art {
-            font-family: 'DejaVu Sans Mono', 'Cascadia Mono', 'Liberation Mono', 'Noto Sans Mono', 'Roboto Mono', 'Courier New', monospace;
+            font-family: 'JGS', 'DejaVu Sans Mono', 'Cascadia Mono', 'Liberation Mono', 'Noto Sans Mono', 'Roboto Mono', 'Courier New', monospace;
         }
 
         .ascii-art {
