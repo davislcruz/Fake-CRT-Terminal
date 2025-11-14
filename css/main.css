@@ -2,7 +2,8 @@
         @font-face {
             font-family: 'JGS';
             src: url('../fonts/jgs5.woff2') format('woff2'),
-                 url('../fonts/jgs5.woff') format('woff');
+                 url('../fonts/jgs5.woff') format('woff'),
+                 url('../fonts/jgs5.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -11,7 +12,8 @@
         @font-face {
             font-family: 'JGS7';
             src: url('../fonts/jgs7.woff2') format('woff2'),
-                 url('../fonts/jgs7.woff') format('woff');
+                 url('../fonts/jgs7.woff') format('woff'),
+                 url('../fonts/jgs7.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -20,7 +22,8 @@
         @font-face {
             font-family: 'JGS9';
             src: url('../fonts/jgs9.woff2') format('woff2'),
-                 url('../fonts/jgs9.woff') format('woff');
+                 url('../fonts/jgs9.woff') format('woff'),
+                 url('../fonts/jgs9.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
