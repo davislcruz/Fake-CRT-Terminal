@@ -45,10 +45,11 @@ Pick **ONE** of the options below:
 
 I was able to create this effect thanks to the incredible work and open-source implementations from the creators below.
 I borrowed ideas and code from their projects, and I’m grateful I found their work instead of reinventing the wheel.
-Huge thanks to them for sharing these resources — they saved me a lot of time and helped make this project possible.
+Huge thanks to them for sharing these resources, they saved me a lot of time and helped make this project possible.
 
 - https://aleclownes.com/2017/02/01/crt-display.html
 - https://github.com/staltz/hyperpunk
 - https://codepen.io/lbebber/pen/XJRdrV
 - https://github.com/HairyDuck/terminal
 - https://codepen.io/njbair/pen/ZVPomJ
+- https://codepen.io/meduzen/pen/zxbwRV 
