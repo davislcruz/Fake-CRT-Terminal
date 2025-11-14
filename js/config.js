@@ -51,5 +51,5 @@ ${asciiArt}
 </pre>
 <div class="output-line welcome-text">Welcome to my website!</div>
 <div class="output-line info-text">Type 'help' for available commands.</div>
-<div class="output-line info-text">════════════════════════════════════════</div>
+<div class="output-line welcome-divider">══════════════════════════════════════</div>
 `;
