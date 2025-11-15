@@ -230,7 +230,13 @@ export function createMatrixEffect() {
     }
 
     // Exit handler for keypress/touch/click
+    let exitHandlersActive = false;
     function exitHandler(e) {
+        if (!exitHandlersActive) {
+            console.log('⚠️ Exit handler called but not active yet, ignoring');
+            return;
+        }
+        console.log('✋ Exit handler triggered by:', e.type);
         e.preventDefault();
         e.stopPropagation();
         cleanup();
@@ -240,23 +246,32 @@ export function createMatrixEffect() {
     const intervalId = setInterval(draw, 33);
     console.log('🎬 Animation started with', columns, 'columns');
 
-    // Hide debug text after 3 seconds (extended for debugging)
+    // Add exit handlers immediately (but they won't trigger until activated)
+    document.addEventListener('keydown', exitHandler, { capture: true });
+    document.addEventListener('touchstart', exitHandler, { capture: true });
+    document.addEventListener('click', exitHandler, { capture: true });
+    console.log('⌨️ Keydown, touch, and click listeners added (capture phase)');
+
+    // Activate exit handlers after 1 second delay to prevent accidental immediate exit
+    setTimeout(() => {
+        exitHandlersActive = true;
+        console.log('✅ Exit handlers now active');
+        if (debugText.parentNode) {
+            debugText.textContent = 'TAP OR PRESS KEY TO EXIT';
+        }
+    }, 1000);
+
+    // Hide debug text after 4 seconds
     setTimeout(() => {
         if (debugText.parentNode) {
             debugText.remove();
         }
-    }, 3000);
+    }, 4000);
 
     // Auto-stop after duration
     setTimeout(() => {
         cleanup();
     }, config.duration);
-
-    // Exit on any keypress, touch, or click - use capture phase to intercept BEFORE terminal input
-    document.addEventListener('keydown', exitHandler, { capture: true });
-    document.addEventListener('touchstart', exitHandler, { capture: true });
-    document.addEventListener('click', exitHandler, { capture: true });
-    console.log('⌨️ Keydown, touch, and click listeners added (capture phase)');
 
     console.log('✅ Matrix effect fully initialized!');
 }
