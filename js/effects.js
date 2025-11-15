@@ -56,12 +56,13 @@ export function createMatrixEffect() {
     console.log('📦 Overlay created:', overlay);
     overlay.id = 'matrix-overlay';
     overlay.style.position = 'fixed';
-    overlay.style.zIndex = '1000';
+    overlay.style.zIndex = '9999';
     overlay.style.backgroundColor = `rgba(0, 0, 0, ${config.backgroundOpacity})`;
     overlay.style.opacity = '1';
     overlay.style.display = 'flex';
     overlay.style.alignItems = 'center';
     overlay.style.justifyContent = 'center';
+    overlay.style.pointerEvents = 'auto';
 
     // Apply CRT effects to overlay
     overlay.className = 'crt-scanlines crt-flicker crt-colorsep';
@@ -91,6 +92,19 @@ export function createMatrixEffect() {
     } else {
         terminalElement.style.opacity = '1';
     }
+
+    // Add debug text to overlay (temporary)
+    const debugText = document.createElement('div');
+    debugText.style.position = 'absolute';
+    debugText.style.top = '50%';
+    debugText.style.left = '50%';
+    debugText.style.transform = 'translate(-50%, -50%)';
+    debugText.style.color = '#00ff00';
+    debugText.style.fontSize = '20px';
+    debugText.style.fontFamily = 'monospace';
+    debugText.style.zIndex = '10000';
+    debugText.textContent = 'MATRIX OVERLAY VISIBLE - Loading...';
+    overlay.appendChild(debugText);
 
     // Create canvas for Matrix effect
     const canvas = document.createElement('canvas');
@@ -207,6 +221,13 @@ export function createMatrixEffect() {
         e.stopPropagation();
         cleanup();
     }
+
+    // Hide debug text after first draw
+    setTimeout(() => {
+        if (debugText.parentNode) {
+            debugText.remove();
+        }
+    }, 500);
 
     // Start animation
     const intervalId = setInterval(draw, 33);
