@@ -159,6 +159,9 @@ export function addCommand(cmd) {
     output.appendChild(div);
 }
 
+// Configuration for memory management
+const MAX_COMMAND_HISTORY = 50; // Keep last 50 commands
+
 // Process command
 export function processCommand(cmd, input, updateCursorPositionFn) {
     cmd = cmd.trim();
@@ -167,9 +170,14 @@ export function processCommand(cmd, input, updateCursorPositionFn) {
     // Get command history from main.js
     const { commandHistory, setHistoryIndex } = window.terminalState || {};
 
-    // Add to history
+    // Add to history with limit to prevent memory bloat
     if (commandHistory) {
         commandHistory.unshift(cmd);
+        // Trim history if it exceeds max size
+        if (commandHistory.length > MAX_COMMAND_HISTORY) {
+            commandHistory.length = MAX_COMMAND_HISTORY;
+            console.log(`♻️ Trimmed command history to ${MAX_COMMAND_HISTORY} entries`);
+        }
         setHistoryIndex(-1);
     }
 

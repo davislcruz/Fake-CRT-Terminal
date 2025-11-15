@@ -79,6 +79,23 @@ export function typeText(text, element, speed = 30) {
     });
 }
 
+// Configuration for memory management
+const MAX_OUTPUT_CHILDREN = 200; // Keep last 200 elements (includes commands + output)
+
+// Limit terminal output to prevent memory bloat
+function limitOutputSize() {
+    const children = output.children;
+    const toRemove = children.length - MAX_OUTPUT_CHILDREN;
+
+    if (toRemove > 0) {
+        // Remove oldest elements
+        for (let i = 0; i < toRemove; i++) {
+            output.removeChild(children[0]);
+        }
+        console.log(`♻️ Cleaned up ${toRemove} old output lines`);
+    }
+}
+
 // Add output to terminal
 export function addOutput(text, className = '') {
     if (text === null) return;
@@ -88,6 +105,7 @@ export function addOutput(text, className = '') {
         const renderer = structuredRenderers[text.type];
         if (renderer) {
             renderer(text.data);
+            limitOutputSize(); // Cleanup after adding structured content
             return;
         }
         console.warn(`No renderer found for type: ${text.type}`);
@@ -105,6 +123,7 @@ export function addOutput(text, className = '') {
         output.appendChild(div);
     });
 
+    limitOutputSize(); // Cleanup after adding output
     scrollToBottom();
 }
 

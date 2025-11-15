@@ -15,22 +15,48 @@ export function randomGlitch() {
 
     console.log('✅ Starting glitch loop');
 
+    let glitchTimeoutId = null;
+    let glitchActive = false;
+
     function checkGlitch() {
+        // Only run glitch if page is visible (save CPU when tab is inactive)
+        if (document.hidden) {
+            console.log('⏸️ Page hidden, pausing glitch');
+            const nextCheck = Math.floor(Math.random() * 5500) + 500;
+            glitchTimeoutId = setTimeout(checkGlitch, nextCheck);
+            return;
+        }
+
         if (Math.random() < 0.95) {
             console.log('⚡ Triggering glitch!');
             asciiArt.classList.add('glitch');
             asciiArt.setAttribute('data-text', asciiArt.textContent);
+            glitchActive = true;
 
             const glitchDuration = Math.floor(Math.random() * 1700) + 800;
             setTimeout(() => {
                 asciiArt.classList.remove('glitch');
+                glitchActive = false;
                 console.log('✅ Glitch removed');
             }, glitchDuration);
         }
 
         const nextCheck = Math.floor(Math.random() * 5500) + 500;
-        setTimeout(checkGlitch, nextCheck);
+        glitchTimeoutId = setTimeout(checkGlitch, nextCheck);
     }
+
+    // Pause glitch when tab becomes hidden, resume when visible
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            console.log('👁️ Tab hidden - glitch will pause on next cycle');
+            if (glitchActive) {
+                asciiArt.classList.remove('glitch');
+                glitchActive = false;
+            }
+        } else {
+            console.log('👁️ Tab visible - glitch resumed');
+        }
+    });
 
     checkGlitch();
 }
