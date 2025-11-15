@@ -146,6 +146,9 @@ export function createMatrixEffect() {
     // Add mobile debug info
     debugText.textContent = 'Canvas: ' + canvas.width + 'x' + canvas.height + ' - Starting...';
 
+    // Track animation frames for debugging
+    let frameCount = 0;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) {
         console.error('❌ Could not get canvas context! Aborting.');
@@ -171,6 +174,13 @@ export function createMatrixEffect() {
 
     // Draw function for animation
     function draw() {
+        frameCount++;
+
+        // Update debug text every 30 frames
+        if (frameCount % 30 === 0 && debugText.parentNode) {
+            debugText.textContent = 'Frames: ' + frameCount + ' | Columns: ' + columns;
+        }
+
         // Semi-transparent black to create trail effect
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -226,16 +236,16 @@ export function createMatrixEffect() {
         cleanup();
     }
 
-    // Hide debug text after first draw
+    // Start animation
+    const intervalId = setInterval(draw, 33);
+    console.log('🎬 Animation started with', columns, 'columns');
+
+    // Hide debug text after 3 seconds (extended for debugging)
     setTimeout(() => {
         if (debugText.parentNode) {
             debugText.remove();
         }
-    }, 500);
-
-    // Start animation
-    const intervalId = setInterval(draw, 33);
-    console.log('🎬 Animation started with', columns, 'columns');
+    }, 3000);
 
     // Auto-stop after duration
     setTimeout(() => {
