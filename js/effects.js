@@ -43,7 +43,7 @@ export function createMatrixEffect() {
     // CONFIGURATION - Change these to test different styles!
     // ============================================
     const config = {
-        scope: 'terminal',        // 'fullpage' or 'terminal'
+        scope: 'fullpage',        // 'fullpage' or 'terminal'
         background: 'dim',        // 'hide', 'dim', or 'visible'
         duration: 10000,          // milliseconds (10 seconds)
         backgroundOpacity: 0.4    // 0.0 = fully transparent, 1.0 = solid black
@@ -103,15 +103,40 @@ export function createMatrixEffect() {
     document.body.appendChild(overlay);
     console.log('✅ Overlay appended to body');
 
+    // Force a reflow to ensure dimensions are calculated
+    overlay.offsetHeight;
+
     // NOW read the actual rendered dimensions
-    canvas.width = overlay.offsetWidth;
-    canvas.height = overlay.offsetHeight;
+    const overlayWidth = overlay.offsetWidth || window.innerWidth;
+    const overlayHeight = overlay.offsetHeight || window.innerHeight;
+
+    canvas.width = overlayWidth;
+    canvas.height = overlayHeight;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     console.log('📐 Canvas dimensions:', canvas.width, 'x', canvas.height);
-    console.log('📐 Overlay dimensions:', overlay.offsetWidth, 'x', overlay.offsetHeight);
+    console.log('📐 Overlay dimensions:', overlayWidth, 'x', overlayHeight);
+    console.log('📐 Window dimensions:', window.innerWidth, 'x', window.innerHeight);
+
+    // Safety check
+    if (canvas.width === 0 || canvas.height === 0) {
+        console.error('❌ Canvas has zero dimensions! Aborting.');
+        terminalElement.style.opacity = '1';
+        if (overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+        return;
+    }
 
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('❌ Could not get canvas context! Aborting.');
+        terminalElement.style.opacity = '1';
+        if (overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+        return;
+    }
 
     // Matrix characters - katakana, numbers, symbols
     const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789:・."=*+-<>¦|';
